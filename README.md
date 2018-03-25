@@ -176,6 +176,10 @@ Here are some examples:
 3 hours and 30 minutes example:
 <pre> ~# python switcher.py m03:30 </pre>
 
+### Schedules Information
+
+The schedules time zone is set based on the time configured in the computer that is running this script, In case of clock/time zone changes (SUMMER/WINTER) you will need to delete the existing schedules and create them again!
+
 ### Schedule retrieval
 
 <pre> ~# python switcher.py list </pre>
