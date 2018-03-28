@@ -36,6 +36,14 @@ In order to use the script you will need to extract the following parameters fro
 [i] The **"Auto Discover"** and **"Configure Switcher in AP Mode"** features **DOES NOT require** the **switcherIP, phone_id, device_id, device_pass** parameters in order to operate
 
 
+There are 3 ways to extract the required values
+
+1. Manually from a rooted Android Device from the switcher app sqlite db
+2. Manually an unrooted Android device using a packet capture application
+3. Automatically using **THIS script**
+
+**To extract the values using this script please look at the usage example in the usage section**
+
 #### switcherIP = "0.0.0.0"
 
 Change IP Address to your switcher IP
@@ -78,6 +86,25 @@ Use this tool to convert to little endian:
 
 
 # Usage:
+
+### Extract Required Values
+
+This feature will attempt to extract the required parameters for the operation of this script or the home assistant component
+
+How it works ?
+
+1. The script will listen and wait for a broadcast message from your switcher device and will extract the **device_id** paramter from the broadcast message.
+2. The script will send a "magic" packet which will retrun the **phone_id** parameter
+3. The script will Perform a Brute Force attack in order to find the **device_password**
+4. A file with the extracted information will be created in the same directory of the script.
+
+**Please notice the process can take between 10 seconds to 10 minutes!**
+
+This is a guided process, which requires user intervention, **You will need to turn your switcher device on or click the "update" button in the auto close screen of the app when prompted**.
+
+<pre> ~# python switcher.py extract</pre>
+
+![alt text](https://raw.githubusercontent.com/NightRang3r/Switcher-V2-Python/master/.Screenshots/extract.png)
 
 ### Discover Switcher IP Address and State
 
