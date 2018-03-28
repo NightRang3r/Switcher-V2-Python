@@ -31,12 +31,17 @@ Home assistant users can use this script as a command line [switch](https://home
 This script requires Python 2.7 
 
 
-In order to use the script you will need to extract the following parameters from a rooted android device or from a packet capture and adjust the script parameters accordingly
+In order to use the script you will need to extract the following parameters from a rooted android device, from a packet capture or using the "extract" feature and adjust the script parameters accordingly:
 
-[i] The **"Auto Discover"** and **"Configure Switcher in AP Mode"** features **DOES NOT require** the **switcherIP, phone_id, device_id, device_pass** parameters in order to operate
+* switcherIP
+* phone_id
+* device_id
+* device_pass
+
+[i] The **extract**, **"Auto Discover"** and **"Configure Switcher in AP Mode"** features **DOES NOT require** the **switcherIP, phone_id, device_id, device_pass** parameters in order to operate
 
 
-There are 3 ways to extract the required values
+There are 3 ways to extract the required values:
 
 1. Manually from a rooted Android Device from the switcher app sqlite db
 2. Manually an unrooted Android device using a packet capture application
