@@ -49,7 +49,8 @@ def banner():
 	print "Disable Schedule:" + " ./" + sys.argv[0] + " disable\r"
 	print "Change switcher name:" " ./" + sys.argv[0] + " nNAME\r"
 	print "Auto detect Switcher IP Address and state:" + " ./" + sys.argv[0] + " discover\r"
-	print "Configure Switcher in AP Mode:" + " ./" + sys.argv[0] + " configure\r\n"
+	print "Configure Switcher in AP Mode:" + " ./" + sys.argv[0] + " configure\r"
+	print "Auto Extract the needed values for this script (device_id, phone_id and device_pass):" + " ./" + sys.argv[0] + " extract\r\n"
 	sys.exit (1)
 
 if len (sys.argv) != 2:
@@ -79,6 +80,8 @@ elif  sys.argv[1] == "disable":
 elif  sys.argv[1] == "discover":
 	sCommand = "3"
 elif sys.argv[1] == "configure":
+	sCommand = "3"
+elif sys.argv[1] == "extract":
 	sCommand = "3"
 else:
 	banner()
@@ -211,6 +214,92 @@ print """
 	 	+ Aviad Golan (@AviadGolan) and Shai Rod (@NightRang3r) +
 	 	=========================================================
 	 """
+if sys.argv[1] == "extract":
+	phone_id = "0000"  
+	device_pass = "00000000"
+	UDP_IP = "0.0.0.0"
+	UDP_PORT = 20002
+	sCommand = "0"
+	try:
+		sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) 
+		sock.bind((UDP_IP, UDP_PORT))
+		while True:
+			print "[*] Waiting for broadcast from Switcher device..."
+			data, addr = sock.recvfrom(1024) 
+			if ba.hexlify(data)[0:4] != "fef0" and len(data) != 165:
+					print "[!] Not a switcher broadcast message!"
+			else:
+				b = ba.hexlify(data)[152:160]
+				ip_addr = int(b[6:8] + b[4:6] + b[2:4] + b[0:2] , 16)
+				switcherIP = socket.inet_ntoa(struct.pack("<L", ip_addr))
+				device_id = ba.hexlify(data)[36:42]
+				break
+
+	except Exception as e:
+		print("[!] Something went wrong...")
+		print "[!] " + str(e)
+
+	try:
+		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		s.connect((switcherIP, 9957)) 
+		
+		data = "fef052000232a100" + pSession + "340001000000000000000000"  + getTS() + "00000000000000000000f0fe1c00" + phone_id + "0000" + device_pass + "00000000000000000000000000000000000000000000000000000000"
+		data = crcSignFullPacketComKey(data, pKey)
+		print ("[*] Sending Login Packet to Switcher...")
+		s.send(ba.unhexlify(data))
+		res = s.recv(1024)
+		pSession2 = ba.hexlify(res)[16:24]
+		if not pSession2:
+			s.close()
+			print ("[!] Operation failed, Could not acquire SessionID, Please try again...")
+			sys.exit()
+		else:
+			data = "fef0300002320103" + pSession2 + "340001000000000000000000" + getTS() + "00000000000000000000f0fe" + device_id + "00"
+			data = crcSignFullPacketComKey(data, pKey)
+			s.send(ba.unhexlify(data))
+			res = s.recv(1024)
+			print ("[+] Received SessionID: " + pSession2)
+			print ('\r\nInstructions:\r')
+			print ('\r\nOpen your Switcher App, perform one of the following actions and press the "Enter" key immediately:\r\n1. Turn on device, or...\n2. Click the update button in the "Auto Shutdown" screen\r\n')
+			message  = raw_input('[+] Press the "Enter" key to continue...')
+			print ("[*] Waiting for a valid Phone ID Packet...")
+			data = "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+			s.send(ba.unhexlify(data))
+			res = s.recv(1024)
+			if len(res) != 87:
+				print "[!] Failed to get data, Please try again!"
+				s.close()
+				sys.exit()
+			else:
+				print "[+] Found Phone ID Packet!"
+				brute_start = time.time()			
+				phone_id = ba.hexlify(res)[156:160]
+				for i in range(0, 9999):
+					device_pass = ba.hexlify("%04d"%(i))
+					sys.stdout.write("\r[*] Brute forcing Device Password, Please wait:" + device_pass)
+					sys.stdout.flush()
+					data = "fef05d0002320102" + pSession2 + "340001000000000000000000" + getTS() + "00000000000000000000f0fe" + device_id + "00" + phone_id + "0000" + device_pass + "000000000000000000000000000000000000000000000000000000000106000" + sCommand + "0000000000"
+					data = crcSignFullPacketComKey(data, pKey)
+					s.send(ba.unhexlify(data))
+					res = s.recv(1024)
+					if len(res) > 44 and len(res) < 60:
+						brute_end = time.time()
+						total_time= time.strftime("%H:%M:%S", time.gmtime(brute_end-brute_start))
+						print "\r\n[+] Found password in: " + total_time
+						print "[+] Device ID: " + device_id
+						print "[+] Phone ID:" + phone_id
+						print "[+] Device Password: " + device_pass
+						s.close()
+						file = open('switcher.txt', 'w') 
+						file.write("phone_id = " + '"' +  phone_id + '"\r')
+						file.write("device_id = " + '"' + device_id + '"\r')
+						file.write("device_pass = " + '"' + device_pass + '"\r')
+						file.close() 
+						print "[+] Information was written to " + os.getcwd() + "/switcher.txt"
+						sys.exit()
+	except Exception as e:
+		print("[!] Something went wrong...")
+		print "[!] " + str(e)
 
 
 if sys.argv[1] == "discover":
