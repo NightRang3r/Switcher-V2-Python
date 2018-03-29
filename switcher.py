@@ -286,11 +286,13 @@ if sys.argv[1] == "extract":
 						brute_end = time.time()
 						total_time= time.strftime("%H:%M:%S", time.gmtime(brute_end-brute_start))
 						print "\r\n[+] Found password in: " + total_time
+						print "[+] Switcher IP: " +  addr[0]
 						print "[+] Device ID: " + device_id
 						print "[+] Phone ID:" + phone_id
 						print "[+] Device Password: " + device_pass
 						s.close()
 						file = open('switcher.txt', 'w') 
+						file.write("switcherIP = " +  '"' + addr[0] + '"\r')
 						file.write("phone_id = " + '"' +  phone_id + '"\r')
 						file.write("device_id = " + '"' + device_id + '"\r')
 						file.write("device_pass = " + '"' + device_pass + '"\r')
