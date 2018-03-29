@@ -260,7 +260,7 @@ if sys.argv[1] == "extract":
 			res = s.recv(1024)
 			print ("[+] Received SessionID: " + pSession2)
 			print ('\r\nInstructions:\r')
-			print ('\r\nOpen your Switcher App, perform one of the following actions and press the "Enter" key immediately:\r\n1. Turn on device, or...\n2. Click the update button in the "Auto Shutdown" screen\r\n')
+			print ('\r\nOpen your Switcher App, perform one of the following actions and press the "Enter" key immediately:\r\n1. Click the "Update" button in the "Auto Shutdown" screen, or...\n2. Turn on device\n')
 			message  = raw_input('[+] Press the "Enter" key to continue...')
 			print ("[*] Waiting for a valid Phone ID Packet...")
 			data = "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
