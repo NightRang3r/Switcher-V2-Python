@@ -105,7 +105,7 @@ How it works ?
 
 **Please notice the process can take between 10 seconds to 10 minutes!**
 
-This is a guided process, which requires user intervention, **You will need to turn your switcher device on or click the "update" button in the auto close screen of the app when prompted**.
+This is a guided process, which requires user intervention, **You will need to click the "Update" button in the "Auto close" screen or turn ON your switcher device in the Switcher App when prompted**.
 
 <pre> ~# python switcher.py extract</pre>
 
