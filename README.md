@@ -38,7 +38,7 @@ In order to use the script you will need to extract the following parameters fro
 * device_id
 * device_pass
 
-[i] The **extract**, **"Auto Discover"** and **"Configure Switcher in AP Mode"** features **DOES NOT require** the **switcherIP, phone_id, device_id, device_pass** parameters in order to operate
+[i] The **"extract"**, **"Auto Discover"** and **"Configure Switcher in AP Mode"** features **DOES NOT require** the **switcherIP, phone_id, device_id, device_pass** parameters in order to operate
 
 
 There are 3 ways to extract the required values:
@@ -47,7 +47,7 @@ There are 3 ways to extract the required values:
 2. Manually an unrooted Android device using a packet capture application
 3. Automatically using **THIS script**
 
-**To extract the values using this script please look at the usage example in the usage section**
+**To extract the values using this script please look at the [usage example in the usage section](https://github.com/NightRang3r/Switcher-V2-Python#extract-required-values)**
 
 #### switcherIP = "0.0.0.0"
 
