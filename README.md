@@ -24,7 +24,7 @@ Product homepage: [https://www.switcher.co.il/](https://www.switcher.co.il/)
 
 Home assistant users can use this script as a command line [switch](https://home-assistant.io/components/switch.command_line/) or use the following component created by [@TomerFI](https://github.com/TomerFi/) based on this script:
 
-[https://github.com/TomerFi/home-assistant-custom-components/tree/master/switcher_heater](https://github.com/TomerFi/home-assistant-custom-components/tree/master/switcher_heater)
+[https://github.com/TomerFi/home-assistant-custom-components/tree/master/switcher_aio](https://github.com/TomerFi/home-assistant-custom-components/tree/master/switcher_aio)
 
 ### Requirements
 
