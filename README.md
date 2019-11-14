@@ -2,6 +2,35 @@
 
 This script is a result of an extensive reasearch of the Switcher V2 Protocol which was performed by Aviad Golan ([@AviadGolan](https://twitter.com/AviadGolan)) and Shai rod ([@NightRang3r](https://twitter.com/NightRang3r))
 
+
+### Important Update
+
+Recent changes in the Switcher firmware broke some functionality in our script and the home assistant components mainly the required values extraction process.
+
+* Switcher V2: Firmware 3.21 (Based on ESP chipset) and 72.32 (Qualcomm chipset)  
+* Switcher Touch with firmware 1.51
+
+But don't worry...the good news is that the **"phone_id"** and **"device_password"** values doesn't really matter anymore
+The only required value you need to extract is the **"device_id"** which is still supported by the script using the discover feature:
+
+```
+~# python switcher.py discover
+```
+
+So an exmaple configuration of the script would look like this:
+
+```
+########## CHANGE TO YOUR PARAMS ##########
+switcherIP = "10.0.0.18" 
+phone_id = "0000"  
+device_id = "ceb91c"
+device_pass = "00000000"
+########## DO NOT CHANGE BYOND THIS LINE  ##########
+```
+
+**Earlier firmaware versions can still use the extract feature in this script in order to get the required values**
+
+
 **Features:**
 
 * Turn Device ON/OFF
