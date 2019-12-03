@@ -388,7 +388,7 @@ if sys.argv[1] == "configure":
 		print "[*] Waiting for broadcast from Switcher device...(Press CTRL+C to abort)"
 		while True:
 			data, addr = sock.recvfrom(1024) 
-			if (( ba.hexlify(data)[0:4] != "fef0" and len(data) != 165 )) or (( addr[0] != "192.168.1.1" )):
+			if (( ba.hexlify(data)[0:4] != "fef0" and len(data) != 165 )) or (( addr[0] != "192.168.1.1" )) or (( addr[0] != "192.168.4.1" )):
 				print "[!] Not a switcher configuration broadcast message!"
 			else:
 				b = ba.hexlify(data)[152:160]	 
