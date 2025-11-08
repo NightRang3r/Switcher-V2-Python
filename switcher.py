@@ -402,7 +402,7 @@ if sys.argv[1] == "configure":
 		while True:
 			data, addr = sock.recvfrom(1024)
 			print(f"[DEBUG] Received {len(data)} bytes from {addr[0]}")
-			if (ba.hexlify(data)[0:4].decode() != "fef0" or len(data) != 165) or (addr[0] != "192.168.1.1" and addr[0] != "192.168.4.1"):
+			if ba.hexlify(data)[0:4].decode() != "fef0" or len(data) != 165:
 				print ("[!] Not a switcher configuration broadcast message!")
 				continue
 			else:
